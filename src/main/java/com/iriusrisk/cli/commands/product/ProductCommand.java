@@ -44,7 +44,7 @@ public class ProductCommand implements Runnable {
             products.forEach(System.out::println);
 
         } catch (ApiException e) {
-            ErrorUtil.apiError(spec);
+            ErrorUtil.apiError(spec, null);
         }
     }
 
@@ -55,7 +55,7 @@ public class ProductCommand implements Runnable {
             System.out.println(product);
 
         } catch (ApiException e) {
-            ErrorUtil.apiError(spec);
+            ErrorUtil.apiError(spec, null);
         }
     }
 

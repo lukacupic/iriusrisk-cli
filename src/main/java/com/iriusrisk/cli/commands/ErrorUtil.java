@@ -1,6 +1,5 @@
 package com.iriusrisk.cli.commands;
 
-import com.iriusrisk.cli.Irius;
 import picocli.CommandLine;
 
 public class ErrorUtil {
@@ -10,17 +9,20 @@ public class ErrorUtil {
      *
      * @param spec the CommandSpec, used for writing to command line.
      */
-    public static void apiError(CommandLine.Model.CommandSpec spec) {
-        String message;
-        if (Irius.getApiToken() == null) {
-            message = "No API token found. To configure your API token please use command:\n" +
-                    "  irius configure token set <api token>\n" +
-                    "If you do not have an api token please contact your administrator.\n";
-        } else {
-            message = "Error while calling API";
-        }
+    public static void apiError(CommandLine.Model.CommandSpec spec, String message) {
+        throw new CommandLine.ParameterException(spec.commandLine(),
+                message == null ? "Error while calling API" : message);
+    }
 
-        throw new CommandLine.ParameterException(spec.commandLine(), message);
+    /**
+     * Throws an error indicating the absence of the API token.
+     *
+     * @param spec the CommandSpec, used for writing to command line.
+     */
+    public static void apiTokenError(CommandLine.Model.CommandSpec spec) {
+        throw new CommandLine.ParameterException(spec.commandLine(), "No API token found. To configure your API token please use command:\n" +
+                "  irius configure token set <api token>\n" +
+                "If you do not have an api token please contact your administrator.\n");
     }
 
     /**

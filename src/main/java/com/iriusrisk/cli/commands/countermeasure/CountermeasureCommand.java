@@ -61,7 +61,7 @@ public class CountermeasureCommand implements Runnable {
             System.out.println(countermeasures);
 
         } catch (ApiException e) {
-            ErrorUtil.apiError(spec);
+            ErrorUtil.apiError(spec, null);
         }
     }
 }

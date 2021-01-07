@@ -42,7 +42,7 @@ public class ThreatCommand implements Runnable {
             System.out.println(threats);
 
         } catch (ApiException e) {
-            ErrorUtil.apiError(spec);
+            ErrorUtil.apiError(spec, null);
         }
     }
 
