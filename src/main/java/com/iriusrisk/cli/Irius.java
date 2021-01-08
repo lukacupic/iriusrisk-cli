@@ -25,6 +25,11 @@ public class Irius implements Runnable {
     private static final String IRIUS_PATH = System.getProperty("user.home") + File.separator + ".irius";
 
     /**
+     * The name of the credentials file, located at {@link #IRIUS_PATH}.
+     */
+    private static final String CREDENTIALS_FILE = "credentials";
+
+    /**
      * The API url.
      */
     private static final String API_URL = "https://demo.iriusrisk.com/api/v1";
@@ -110,6 +115,15 @@ public class Irius implements Runnable {
      */
     public static String getIriusPath() {
         return IRIUS_PATH;
+    }
+
+    /**
+     * Returns the name of the credentials file.
+     *
+     * @return the credentials file
+     */
+    public static String getCredentialsFile() {
+        return CREDENTIALS_FILE;
     }
 
     /**

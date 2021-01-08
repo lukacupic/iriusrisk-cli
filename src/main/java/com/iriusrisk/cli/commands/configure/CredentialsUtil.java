@@ -10,14 +10,14 @@ import java.util.Properties;
 public class CredentialsUtil {
 
     /**
-     * Attemps to add the given credential to the credentials file.
+     * Attempts to add the given credential to the credentials file.
      *
-     * @param name  the credential name
-     * @param value the credential value
+     * @param credential the credential
+     * @param value      the credential value
      */
-    public static void addCredential(String name, String value) throws IOException {
+    public static void addCredential(CredentialValues credential, String value) throws IOException {
         CredentialsUtil.createCredentials();
-        CredentialsUtil.writeCredential(name, value);
+        CredentialsUtil.writeCredential(credential.name(), value);
     }
 
     /**
@@ -30,10 +30,12 @@ public class CredentialsUtil {
         String iriusPath = Irius.getIriusPath();
         File iriusDirectory = new File(iriusPath);
 
-        String credentialsPath = iriusPath + File.separator + "credentials";
+        String credentialsPath = iriusPath + File.separator + Irius.getCredentialsFile();
         File credentialsFile = new File(credentialsPath);
 
-        if (credentialsFile.exists()) return;
+        if (credentialsFile.exists()) {
+            return;
+        }
 
         try {
             if (iriusDirectory.exists()) {
@@ -66,7 +68,7 @@ public class CredentialsUtil {
      */
     public static void writeCredential(String name, String value) throws IOException {
         String iriusPath = Irius.getIriusPath();
-        String credentialsPath = iriusPath + File.separator + "credentials";
+        String credentialsPath = iriusPath + File.separator + Irius.getCredentialsFile();
         File credentialsFile = new File(credentialsPath);
 
         FileWriter writer = new FileWriter(credentialsFile, true);
@@ -91,7 +93,7 @@ public class CredentialsUtil {
      * Reads and returns all available credentials.
      */
     public static Map<String, String> readCredentials() {
-        String credentialsPath = Irius.getIriusPath() + File.separator + "credentials";
+        String credentialsPath = Irius.getIriusPath() + File.separator + Irius.getCredentialsFile();
 
         try (InputStream input = new FileInputStream(credentialsPath)) {
             Properties prop = new Properties();
