@@ -1,16 +1,17 @@
 package com.iriusrisk.cli;
 
 import com.iriusrisk.api.ProductsApi;
-import com.iriusrisk.cli.commands.configure.CredentialValues;
+import com.iriusrisk.cli.commands.configure.Credentials;
 import com.squareup.okhttp.OkHttpClient;
 import com.iriusrisk.cli.commands.configure.ConfigureCommand;
-import com.iriusrisk.cli.commands.configure.CredentialsUtil;
+import com.iriusrisk.cli.commands.configure.CredentialUtils;
 import com.iriusrisk.cli.commands.countermeasure.CountermeasureCommand;
 import com.iriusrisk.cli.commands.product.ProductCommand;
 import com.iriusrisk.cli.commands.threat.ThreatCommand;
 import picocli.CommandLine;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 
@@ -74,7 +75,10 @@ public class Irius implements Runnable {
         API.getApiClient().setHttpClient(httpClient);
         API.getApiClient().setVerifyingSsl(false);
 
-        apiToken = CredentialsUtil.readCredential(CredentialValues.API_TOKEN);
+        Credentials c = CredentialUtils.readCredentials();
+        if (c != null) {
+            apiToken = c.getApiToken();
+        }
     }
 
     @Override

@@ -26,9 +26,9 @@ public class TokenCommand implements Runnable {
             ErrorUtil.customError(spec, "API token cannot be empty");
         }
 
-        Irius.setApiToken(token);
         try {
-            CredentialsUtil.addCredential(CredentialValues.API_TOKEN, token);
+            Irius.setApiToken(token);
+            CredentialUtils.writeTokenCredential(token);
         } catch (IOException e) {
             ErrorUtil.customError(spec, "Error while writing to credentials file");
         }

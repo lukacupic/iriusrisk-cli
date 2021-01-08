@@ -1,9 +1,9 @@
 package com.iriusrisk.cli.commands.configure;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.iriusrisk.cli.commands.ErrorUtil;
 import picocli.CommandLine;
-
-import java.util.Map;
 
 @CommandLine.Command(name = "configure", description = "Manage configuration properties", subcommands = {
         TokenCommand.class
@@ -23,19 +23,20 @@ public class ConfigureCommand implements Runnable {
 
     @CommandLine.Command(name = "list", description = "List all products")
     void listCommand() {
-        CredentialsUtil.checkToken(spec);
+        CredentialUtils.checkToken(spec);
 
-        Map<String, String> credentials = CredentialsUtil.readCredentials();
+        Credentials credentials = CredentialUtils.readCredentials();
         if (credentials == null) {
             ErrorUtil.customError(spec, "Error while reading credentials. Does the file exist?");
         }
 
-        System.out.println("{");
-        for (String key : credentials.keySet()) {
-            String string = String.format("  %s: %s", key, credentials.get(key));
-            System.out.println(string);
+        try {
+            ObjectMapper jackson = new ObjectMapper();
+            System.out.println(jackson.writeValueAsString(credentials));
+
+        } catch (JsonProcessingException e) {
+            ErrorUtil.customError(spec, "Error while printing the credentials.");
         }
-        System.out.println("}");
     }
 
     @Override

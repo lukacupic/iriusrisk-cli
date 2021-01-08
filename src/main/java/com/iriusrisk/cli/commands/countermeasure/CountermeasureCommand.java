@@ -4,7 +4,7 @@ import com.iriusrisk.ApiException;
 import com.iriusrisk.api.ProductsApi;
 import com.iriusrisk.cli.Irius;
 import com.iriusrisk.cli.commands.ErrorUtil;
-import com.iriusrisk.cli.commands.configure.CredentialsUtil;
+import com.iriusrisk.cli.commands.configure.CredentialUtils;
 import com.iriusrisk.model.ComponentControl;
 import picocli.CommandLine;
 
@@ -47,7 +47,7 @@ public class CountermeasureCommand implements Runnable {
 
     @Override
     public void run() {
-        CredentialsUtil.checkToken(spec);
+        CredentialUtils.checkToken(spec);
 
         try {
             List<ComponentControl> countermeasures;
