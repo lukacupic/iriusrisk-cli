@@ -4,6 +4,7 @@ import com.iriusrisk.ApiException;
 import com.iriusrisk.api.ProductsApi;
 import com.iriusrisk.cli.Irius;
 import com.iriusrisk.cli.commands.ErrorUtil;
+import com.iriusrisk.cli.commands.configure.CredentialsUtil;
 import com.iriusrisk.model.ComponentUseCaseThreatShort;
 import picocli.CommandLine;
 
@@ -37,12 +38,14 @@ public class ThreatCommand implements Runnable {
 
     @CommandLine.Command(name = "list", description = "List all threats for a given product")
     void listCommand(@CommandLine.Parameters(paramLabel = "id", description = "Product ID") String id) {
+        CredentialsUtil.checkToken(spec);
+
         try {
             List<ComponentUseCaseThreatShort> threats = api.productsRefThreatsGet(token, id);
             System.out.println(threats);
 
         } catch (ApiException e) {
-            ErrorUtil.apiError(spec, null);
+            ErrorUtil.apiError(spec, e.getMessage());
         }
     }
 

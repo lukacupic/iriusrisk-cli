@@ -1,6 +1,7 @@
 package com.iriusrisk.cli;
 
 import com.iriusrisk.api.ProductsApi;
+import com.iriusrisk.cli.commands.configure.CredentialValues;
 import com.squareup.okhttp.OkHttpClient;
 import com.iriusrisk.cli.commands.configure.ConfigureCommand;
 import com.iriusrisk.cli.commands.configure.CredentialsUtil;
@@ -73,7 +74,7 @@ public class Irius implements Runnable {
         API.getApiClient().setHttpClient(httpClient);
         API.getApiClient().setVerifyingSsl(false);
 
-        apiToken = CredentialsUtil.readCredential("token");
+        apiToken = CredentialsUtil.readCredential(CredentialValues.API_TOKEN);
     }
 
     @Override

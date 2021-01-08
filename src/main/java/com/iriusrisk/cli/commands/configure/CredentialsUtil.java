@@ -1,6 +1,8 @@
 package com.iriusrisk.cli.commands.configure;
 
 import com.iriusrisk.cli.Irius;
+import com.iriusrisk.cli.commands.ErrorUtil;
+import picocli.CommandLine;
 
 import java.io.*;
 import java.util.LinkedHashMap;
@@ -83,10 +85,12 @@ public class CredentialsUtil {
     /**
      * Attempts to read the given credential from the credentials file.
      * If the credential is not found, the method returns null.
+     *
+     * @param credential The credential to read
      */
-    public static String readCredential(String name) {
+    public static String readCredential(CredentialValues credential) {
         Map<String, String> credentials = readCredentials();
-        return credentials == null ? null : credentials.get(name);
+        return credentials == null ? null : credentials.get(credential.name());
     }
 
     /**
@@ -108,6 +112,17 @@ public class CredentialsUtil {
 
         } catch (IOException io) {
             return null;
+        }
+    }
+
+    /**
+     * Checks if the API token exists.
+     *
+     * @param spec the command spec
+     */
+    public static void checkToken(CommandLine.Model.CommandSpec spec) {
+        if (Irius.getApiToken() == null) {
+            ErrorUtil.apiTokenError(spec);
         }
     }
 }

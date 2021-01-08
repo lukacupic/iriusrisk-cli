@@ -23,6 +23,8 @@ public class ConfigureCommand implements Runnable {
 
     @CommandLine.Command(name = "list", description = "List all products")
     void listCommand() {
+        CredentialsUtil.checkToken(spec);
+
         Map<String, String> credentials = CredentialsUtil.readCredentials();
         if (credentials == null) {
             ErrorUtil.customError(spec, "Error while reading credentials. Does the file exist?");

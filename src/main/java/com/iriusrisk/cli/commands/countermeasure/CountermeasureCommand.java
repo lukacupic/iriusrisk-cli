@@ -4,6 +4,7 @@ import com.iriusrisk.ApiException;
 import com.iriusrisk.api.ProductsApi;
 import com.iriusrisk.cli.Irius;
 import com.iriusrisk.cli.commands.ErrorUtil;
+import com.iriusrisk.cli.commands.configure.CredentialsUtil;
 import com.iriusrisk.model.ComponentControl;
 import picocli.CommandLine;
 
@@ -46,6 +47,8 @@ public class CountermeasureCommand implements Runnable {
 
     @Override
     public void run() {
+        CredentialsUtil.checkToken(spec);
+
         try {
             List<ComponentControl> countermeasures;
             if (required) {
@@ -61,7 +64,7 @@ public class CountermeasureCommand implements Runnable {
             System.out.println(countermeasures);
 
         } catch (ApiException e) {
-            ErrorUtil.apiError(spec, null);
+            ErrorUtil.apiError(spec, e.getMessage());
         }
     }
 }
